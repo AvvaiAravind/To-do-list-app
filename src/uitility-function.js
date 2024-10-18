@@ -1,3 +1,5 @@
+import { parseISO, startOfToday } from "date-fns";
+
 export function createElementWithClass(element, ...classattribute) {
   const newElement = document.createElement(element);
   const classattributes = [...classattribute];
@@ -25,4 +27,31 @@ export function appendElement(parent, child) {
     console.warn(`Parent element ${parent} not found`);
     return null;
   }
+}
+
+export function dateValidation(duedate) {
+  let dateObj = parseISO(duedate);
+
+  if (dateObj < startOfToday) {
+    alert("You've entered a past date, Please enter present or future date");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function formValidation(title, description, dueDate) {
+  if (title == "" || description == "" || dueDate == "") {
+    alert("Title, Description, Due Date are requried fields");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function createButton(idname, buttonname, callbackfunc) {
+  const button = createElementWithId("button", idname);
+  button.textContent = buttonname;
+  button.addEventListener("click", callbackfunc);
+  return button;
 }

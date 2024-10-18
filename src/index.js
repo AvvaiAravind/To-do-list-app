@@ -1,18 +1,40 @@
 import "./style.css";
 import { BlankProjectLoad } from "./blank-project-load";
-import { InitialDomManip } from "./initial-dom-manipulation";
+import { DomManip } from "./dom-manipulation";
 import { CreateToDo } from "./create-to-do";
 
-const blankproject = new BlankProjectLoad();
+const initialDomObject = new DomManip();
+const addTask = document.querySelector(".task-button");
+const dialog = document.querySelector("dialog");
+const addProject = document.querySelector(".add-project");
 
-new InitialDomManip(blankproject);
+addTask.addEventListener("click", () => {
+  dialog.showModal();
+});
 
-const myFirstToDo = new CreateToDo(
-  "Homework",
-  "History home work",
-  "20 / 12 / 2024",
-  "important",
-  ["chapter1", "south indian kings topic"]
-);
+addProject.addEventListener("click", () => {
+  initialDomObject.addAProjectFunc();
+});
 
-window.myFirstToDo = myFirstToDo;
+dialog.addEventListener("click", dialogEventFunc);
+
+function dialogEventFunc(e) {
+  let target = e.target;
+
+  switch (target.id) {
+    case "dialog-close-button":
+      dialog.close();
+      break;
+    case "add-checklist-button":
+      initialDomObject.addChecklistItems();
+      break;
+    case "include-button":
+      const todo = new CreateToDo();
+      // return todo;
+      break;
+  }
+  console.log(target.className);
+  if (target.classList.contains("fa-solid")) {
+    initialDomObject.removeChecklistItems(e);
+  }
+}

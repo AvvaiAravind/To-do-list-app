@@ -2,6 +2,7 @@
 
 html {
   font-family: "Yusei Magic", sans-serif;
+  scroll-behavior: smooth;
 }
 
 h1 {
@@ -27,4 +28,103 @@ h1 {
 
 .todo-section {
   padding: 5px 30px;
+}
+
+dialog::backdrop {
+  background-color: #ffffff80;
+}
+
+dialog {
+  /* display: block; */
+}
+
+#dialog {
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: black;
+  color: whitesmoke;
+  gap: 20px;
+  width: 500px;
+  height: 300px;
+  overflow-y: auto;
+  scrollbar-color: #ffffff80 transparent;
+  scrollbar-width: thin;
+}
+
+.close-icon {
+  display: flex;
+  justify-content: end;
+  font-size: 30px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.close-button:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.input-container input {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+form :nth-child(6) {
+  display: grid;
+}
+.checklist-button {
+  margin-top: 5px;
+  width: 100px;
+  justify-self: center;
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  border-radius: 5px;
+}
+
+.include-button {
+  padding: 10px;
+  border-radius: 20px;
+  width: 150px;
+  background-color: whitesmoke;
+  color: black;
+  font-weight: bold;
+}
+
+.project-display {
+  margin-top: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.project-display input {
+  grid-column: 1 / 3;
+}
+
+#cancel-project-div {
+  margin-top: 5px;
+  grid-column: 1/3;
+}
+
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
