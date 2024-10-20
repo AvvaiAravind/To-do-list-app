@@ -39,10 +39,8 @@ export class DomManip {
 
       const projectDisplay = createElementWithClass("div", "project-display");
       const saveButton = createButton("save-project", "Save", saveProjectFunc);
-      const clearButton = createButton(
-        "clear-project-input",
-        "Clear",
-        clearFunc
+      const clearButton = createButton("clear-project-input", "Clear", () =>
+        clearFunc("id", "clear-project-input")
       );
       const cancelButton = createButton(
         "cancel-project-div",
@@ -77,6 +75,7 @@ export class DomManip {
       "checklist-close-button"
     );
     const inputText = document.getElementById("checklist").value;
+    li.className = "checklist-li";
     console.log(inputText);
     if (inputText !== "") {
       li.textContent = inputText;
@@ -87,7 +86,7 @@ export class DomManip {
       appendElement(`#checklist-li-${this.checklistCounter}`, i);
     }
     this.checklistCounter++;
-    clearFunc();
+    clearFunc("id", "checklist");
   }
 }
 
@@ -95,14 +94,76 @@ export function saveProjectFunc() {
   console.log("project saved");
 }
 
-function clearFunc() {
-  const inputField = document.getElementById("project-list");
-  inputField.value = "";
+function clearFunc(targetname, target) {
+  if (targetname === "id") {
+    const inputField = document.getElementById(target);
+    inputField.value = "";
+  } else if (targetname === "class") {
+    const inputField = document.getElementsByClassName(target);
+    inputField.value = "";
+  }
 }
 
 function cancelProjectDiv() {
   console.log("cancel the div");
-  clearFunc();
+  clearFunc("id", "project-list");
   const projectDisDiv = document.querySelector(".project-display");
   projectDisDiv.remove();
+}
+
+export function displayToDo(todoDetails) {
+  if (todoDetails) {
+    console.log(todoDetails);
+    const toDoArticle = document.querySelector(".todo-lists");
+    const card = createElementWithClass("div", "card");
+
+    for (let key in todoDetails) {
+      const p = pTextContent(`${key} :${todoDetails[key]}`);
+      card.appendChild(p);
+    }
+
+    appendElement(".todo-lists", card);
+  } else {
+    retrieveDateFromStorage();
+  }
+}
+
+function pTextContent(textContent) {
+  const p = document.createElement("p");
+
+  p.textContent = textContent;
+  return p;
+}
+
+export function displayFromSession(todoArray) {
+  if (todoArray === null) return;
+  const parsedArray = JSON.parse(todoArray);
+  console.log(parsedArray);
+  for (let array of parsedArray) {
+    console.log(array);
+    displayToDo(array);
+  }
+}
+
+export function displayFromLocal(todoArray) {
+  if (todoArray === null) return;
+
+  console.log(todoArray);
+  const parsedArray = JSON.parse(todoArray);
+  console.log(parsedArray);
+
+  for (let array of parsedArray) {
+    console.log(array);
+    if (array.priority === "High") {
+      const toDoArticle = document.querySelector(".todo-lists");
+      const card = createElementWithClass("div", "card");
+
+      for (let key in array) {
+        const p = pTextContent(`${key} :${array[key]}`);
+        card.appendChild(p);
+      }
+
+      appendElement(".todo-lists", card);
+    }
+  }
 }

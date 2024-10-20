@@ -1,40 +1,76 @@
 import "./style.css";
 import { BlankProjectLoad } from "./blank-project-load";
-import { DomManip } from "./dom-manipulation";
+import {
+  DomManip,
+  displayToDo,
+  displayFromSession,
+  displayFromLocal,
+} from "./dom-manipulation";
 import { CreateToDo } from "./create-to-do";
+import { removeChecklistChild } from "./uitility-function";
+import { saveToLocal } from "./manage-local-storage";
 
-const initialDomObject = new DomManip();
-const addTask = document.querySelector(".task-button");
-const dialog = document.querySelector("dialog");
-const addProject = document.querySelector(".add-project");
+window.onload = (function () {
+  const lastOpened = sessionStorage.getItem("lastOpened");
+  const currentTime = new Date().getTime();
+  const toDoArticle = document.querySelector(".todo-lists");
 
-addTask.addEventListener("click", () => {
-  dialog.showModal();
-});
+  if (lastOpened) {
+    displayFromSession(sessionStorage.getItem("todoArray"));
+  }
+  if (!toDoArticle.firstChild) {
+    displayFromLocal(localStorage.getItem("todoArray"));
+  }
+  // displayFromLocal(localStorage.getItem("todoArray"));
+  const initialDomObject = new DomManip();
+  const addTask = document.querySelector(".task-button");
+  const dialog = document.querySelector("dialog");
+  const addProject = document.querySelector(".add-project");
+  const form = document.querySelector("form");
+  const checklistUl = document.querySelector(".checklist-ul");
 
-addProject.addEventListener("click", () => {
-  initialDomObject.addAProjectFunc();
-});
+  addTask.addEventListener("click", () => {
+    dialog.showModal();
+  });
 
-dialog.addEventListener("click", dialogEventFunc);
+  addProject.addEventListener("click", () => {
+    initialDomObject.addAProjectFunc();
+  });
 
-function dialogEventFunc(e) {
-  let target = e.target;
+  dialog.addEventListener("click", dialogEventFunc);
 
-  switch (target.id) {
-    case "dialog-close-button":
-      dialog.close();
-      break;
-    case "add-checklist-button":
-      initialDomObject.addChecklistItems();
-      break;
-    case "include-button":
-      const todo = new CreateToDo();
+  function dialogEventFunc(e) {
+    let target = e.target;
+
+    switch (target.id) {
+      case "dialog-close-button":
+        form.reset();
+        removeChecklistChild();
+        dialog.close();
+        break;
+      case "add-checklist-button":
+        initialDomObject.addChecklistItems();
+        break;
+      case "include-button":
+        e.preventDefault();
+        let todo = CreateToDo.gatherData();
+        if (todo) {
+          console.log(todo);
+          saveToLocal(todo.getDetails());
+          displayToDo(todo.getDetails());
+          removeChecklistChild();
+          form.reset();
+          dialog.close();
+        }
+
       // return todo;
-      break;
+      // dialog.break;
+    }
+    console.log(target.className);
+    if (target.classList.contains("fa-solid")) {
+      initialDomObject.removeChecklistItems(e);
+    }
   }
-  console.log(target.className);
-  if (target.classList.contains("fa-solid")) {
-    initialDomObject.removeChecklistItems(e);
-  }
-}
+
+  sessionStorage.setItem("lastOpened", currentTime);
+})();

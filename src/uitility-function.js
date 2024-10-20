@@ -32,7 +32,7 @@ export function appendElement(parent, child) {
 export function dateValidation(duedate) {
   let dateObj = parseISO(duedate);
 
-  if (dateObj < startOfToday) {
+  if (dateObj < startOfToday()) {
     alert("You've entered a past date, Please enter present or future date");
     return false;
   } else {
@@ -54,4 +54,15 @@ export function createButton(idname, buttonname, callbackfunc) {
   button.textContent = buttonname;
   button.addEventListener("click", callbackfunc);
   return button;
+}
+
+export function removeI(checlistItems) {
+  console.log(checlistItems);
+}
+
+export function removeChecklistChild() {
+  const checklistUl = document.querySelector(".checklist-ul");
+  while (checklistUl.firstChild) {
+    checklistUl.removeChild(checklistUl.firstChild);
+  }
 }

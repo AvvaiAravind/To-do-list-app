@@ -81,17 +81,11 @@
                 <label for="project">Project</label>
                 <select name="project" id="project">
                   <option value="default" selected>Default</option>
-                  <option value="Not Read">Not Read</option>
                 </select>
               </div>
               <div class="input-container">
                 <label for="checklist">Checklist Items(if any)</label>
-                <input
-                  type="checklist"
-                  name="checklist"
-                  id="checklist"
-                  required
-                />
+                <input type="checklist" name="checklist" id="checklist" />
                 <button
                   type="button"
                   class="checklist-button"
@@ -113,6 +107,7 @@
             </form>
           </div>
         </dialog>
+        <article class="todo-lists"></article>
       </section>
     </main>
     <footer class="footer" id="footer"></footer>
