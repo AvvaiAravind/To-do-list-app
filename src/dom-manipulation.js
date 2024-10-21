@@ -3,9 +3,12 @@ import {
   createElementWithId,
   appendElement,
   createButton,
+  removeToDolist,
 } from "./uitility-function";
+import { parseISO, startOfToday } from "date-fns";
 
 import { BlankProjectLoad } from "./blank-project-load";
+import { getDataFromStorage } from "./manage-local-storage";
 
 export class DomManip {
   constructor(project) {
@@ -29,6 +32,7 @@ export class DomManip {
     const inputAttributes = ["type", "name", "id"];
     const attributeValue = "project-list";
     const inputField = document.createElement("input");
+    inputField.value = "This feature need to be implemented in future";
     const checkDisplayDiv = document.querySelector(".project-display");
     console.log(checkDisplayDiv);
 
@@ -39,6 +43,7 @@ export class DomManip {
 
       const projectDisplay = createElementWithClass("div", "project-display");
       const saveButton = createButton("save-project", "Save", saveProjectFunc);
+      saveButton.setAttribute("disabled", "");
       const clearButton = createButton("clear-project-input", "Clear", () =>
         clearFunc("id", "clear-project-input")
       );
@@ -165,5 +170,78 @@ export function displayFromLocal(todoArray) {
 
       appendElement(".todo-lists", card);
     }
+  }
+}
+
+export function displayAllTask() {
+  removeToDolist();
+
+  const dataFromStorage = getDataFromStorage();
+
+  const todoArray = dataFromStorage.existingtodoArrayL
+    ? dataFromStorage.existingtodoArrayL
+    : dataFromStorage.existingtodoArrayS;
+
+  if (todoArray === null) return;
+
+  for (let array of todoArray) {
+    console.log(array);
+
+    const toDoArticle = document.querySelector(".todo-lists");
+    const card = createElementWithClass("div", "card");
+
+    for (let key in array) {
+      const p = pTextContent(`${key} :${array[key]}`);
+      card.appendChild(p);
+    }
+
+    appendElement(".todo-lists", card);
+  }
+}
+
+export function displayImportant() {
+  removeToDolist();
+  const dataFromStorage = getDataFromStorage();
+
+  const todoArray = dataFromStorage.existingtodoArrayL
+    ? dataFromStorage.existingtodoArrayL
+    : dataFromStorage.existingtodoArrayS;
+
+  if (todoArray === null) return;
+
+  for (let array of todoArray) {
+    console.log(array);
+    if (array.priority === "High" || array.priority === "Medium") {
+      const toDoArticle = document.querySelector(".todo-lists");
+      const card = createElementWithClass("div", "card");
+
+      for (let key in array) {
+        const p = pTextContent(`${key} :${array[key]}`);
+        card.appendChild(p);
+      }
+
+      appendElement(".todo-lists", card);
+    }
+  }
+}
+export function displayToday() {
+  removeToDolist();
+
+  const dataFromStorage = getDataFromStorage();
+  const todoArray = dataFromStorage.existingtodoArrayS || null;
+  if (todoArray === null) return;
+
+  for (let array of todoArray) {
+    console.log(array);
+
+    const toDoArticle = document.querySelector(".todo-lists");
+    const card = createElementWithClass("div", "card");
+
+    for (let key in array) {
+      const p = pTextContent(`${key} :${array[key]}`);
+      card.appendChild(p);
+    }
+
+    appendElement(".todo-lists", card);
   }
 }

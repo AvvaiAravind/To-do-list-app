@@ -66,3 +66,10 @@ export function removeChecklistChild() {
     checklistUl.removeChild(checklistUl.firstChild);
   }
 }
+
+export function removeToDolist() {
+  const todoList = document.querySelector(".todo-lists");
+  while (todoList.firstChild) {
+    todoList.removeChild(todoList.firstChild);
+  }
+}

@@ -5,6 +5,9 @@ import {
   displayToDo,
   displayFromSession,
   displayFromLocal,
+  displayAllTask,
+  displayImportant,
+  displayToday,
 } from "./dom-manipulation";
 import { CreateToDo } from "./create-to-do";
 import { removeChecklistChild } from "./uitility-function";
@@ -73,4 +76,13 @@ window.onload = (function () {
   }
 
   sessionStorage.setItem("lastOpened", currentTime);
+
+  const allTask = document.querySelector(".all-task");
+  allTask.addEventListener("click", displayAllTask);
+
+  const important = document.querySelector(".important");
+  important.addEventListener("click", displayImportant);
+
+  const today = document.querySelector(".today");
+  today.addEventListener("click", displayToday);
 })();

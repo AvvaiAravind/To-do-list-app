@@ -1,5 +1,5 @@
 export function saveToLocal(todoDetails) {
-  debugger;
+  /*  debugger; */
   console.log("Saving object to session and local storage....");
 
   // save to session storage
@@ -16,7 +16,10 @@ export function saveToLocal(todoDetails) {
   if (existingtodoArrayL) {
     const todoArray = JSON.parse(existingtodoArrayL);
     const updatedArray = todoArray.concat(todoDetails);
-    localStorage.setItem("todoArray", JSON.stringify(updatedArray));
+    const updatedJson = localStorage.setItem(
+      "todoArray",
+      JSON.stringify(updatedArray)
+    );
     // sessionStorage.setItem("todoArray", JSON.stringify(updatedArray));
   } else {
     localStorage.setItem("todoArray", JSON.stringify([todoDetails]));
@@ -25,4 +28,11 @@ export function saveToLocal(todoDetails) {
   //save to local storage
 
   return { todoDetails };
+}
+
+export function getDataFromStorage() {
+  const existingtodoArrayS = JSON.parse(sessionStorage.getItem("todoArray"));
+  const existingtodoArrayL = JSON.parse(localStorage.getItem("todoArray"));
+  console.log(existingtodoArrayL, existingtodoArrayS);
+  return { existingtodoArrayS, existingtodoArrayL };
 }
