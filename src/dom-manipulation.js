@@ -32,7 +32,7 @@ export class DomManip {
     const inputAttributes = ["type", "name", "id"];
     const attributeValue = "project-list";
     const inputField = document.createElement("input");
-    inputField.value = "This feature need to be implemented in future";
+    inputField.value = "This feature yet to be implemented";
     const checkDisplayDiv = document.querySelector(".project-display");
     console.log(checkDisplayDiv);
 
